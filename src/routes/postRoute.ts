@@ -1,7 +1,9 @@
 import express, { Router } from 'express';
-import {getAllNote} from '../controllers/postcontroller';
+import {createNote, getASingleNote, getAllNote} from '../controllers/postcontroller';
 const router=express.Router()
 
-router.get('/note',getAllNote)
+router.get('/notes',getAllNote)
+router.post('/note',createNote)
+router.get('/note/:id',getASingleNote)
 
 export default router 

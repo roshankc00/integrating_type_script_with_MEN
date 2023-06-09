@@ -10,12 +10,14 @@ const PORT=env.PORT;
 // connecting to the database
 connectDb()
 
+// middlewares
+app.use(express.json())
+
 // all the routes
 app.use('/api/v1',noteRoutes)
 
-app.get('/',(req,res)=>{
-    throw new Error("wow")
-})
+
+
 app.use(notFound)
 app.use(handleError)
 app.listen(PORT,()=>{
