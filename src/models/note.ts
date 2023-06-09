@@ -13,6 +13,7 @@ const noteSchema=new Schema({
 
 
 export type Note=InferSchemaType<typeof noteSchema>
+export type allNote=Array<Note>
 
  const NoteModel=model<Note>("Note",noteSchema)
  export default NoteModel
