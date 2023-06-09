@@ -25,7 +25,7 @@ export interface Loginbody {
 }
 
 export interface tokenData {
-    id:mongoose.Types.ObjectId;
+    id:string;
 
 }
 export interface Password  {

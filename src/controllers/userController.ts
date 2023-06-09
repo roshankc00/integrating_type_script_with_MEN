@@ -26,7 +26,7 @@ export const registerUser:RequestHandler<any,any,Registerbody,any>=asyncHandler(
                 password:hasPass
             })
             const data:tokenData={
-                id:newUser._id
+                id:newUser._id.toString()
             }
             const token=jwt.sign(data,env.SECRET)
             
@@ -60,7 +60,7 @@ export const loginUser:RequestHandler<any,any,Loginbody,any>=asyncHandler(async(
             throw new Error("enter the valid password")
         }
         const data:tokenData={
-            id:user._id
+            id:user._id.toString()
         }
         const token=jwt.sign(data,env.SECRET)
         res.status(200).json({
