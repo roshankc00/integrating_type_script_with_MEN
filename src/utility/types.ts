@@ -4,6 +4,11 @@ export interface userNote{
     text:string,
     tag:string
 }
+export interface userUpdateNote{
+    title:string;
+    text:string,
+    tag:string
+}
 
 
 // user

@@ -4,6 +4,7 @@ import { connectDb } from './config/connectDb';
 import env from './utility/validateEnv'
 import noteRoutes from './routes/postRoute'
 import { notFound ,handleError} from './middlewares/Errorhandler';
+import morgan from 'morgan'
 const app=express()
 const PORT=env.PORT;
 
@@ -12,9 +13,11 @@ connectDb()
 
 // middlewares
 app.use(express.json())
+app.use(morgan('dev'))
 
 // all the routes
 app.use('/api/v1',noteRoutes)
+
 
 
 

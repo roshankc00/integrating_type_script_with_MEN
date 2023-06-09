@@ -2,7 +2,7 @@ import { Request,Response,RequestHandler } from "express"
 import asyncHandler from 'express-async-handler'
 import NoteModel, { allNote } from "../models/note"
 import {Note} from '../models/note'
-import { userNote } from "../utility/types"
+import { userNote, userUpdateNote } from '../utility/types';
 import validateMongoId from '../utility/validateMongoId'
 
 // get all the notes
@@ -23,14 +23,12 @@ import validateMongoId from '../utility/validateMongoId'
 
 // create the note
 
-export const createNote:RequestHandler=asyncHandler(async(req:Request,res:Response)=>{
+export const createNote:RequestHandler<any,any,userNote,any>=asyncHandler(async(req:Request,res:Response)=>{
    try {
-      const data:userNote={
-         title:req.body.title,
-         tag:req.body.tag,
-         text:req.body.text
+      if(!req.body.title || !req.body.tag ||!req.body.text){
+         throw new Error('All the fields are necessary')
       }
-      const note=await NoteModel.create(data) 
+      const note=await NoteModel.create(req.body) 
       res.status(200).json({
          sucess:true,
          message:"notes has been added sucessfully"
@@ -55,10 +53,52 @@ export const getASingleNote:RequestHandler=asyncHandler(async(req:Request,res:Re
       note
    })
    
- } catch (error) {
+ } catch (error:any) {
+   throw new Error(error)
    
  }
-
-
 })
+
+
+// update the note 
+export const updateNote:RequestHandler<any,any,userUpdateNote,any>=asyncHandler(async(req:Request,res:Response)=>{
+   try {
+      const noteId:string=req.params.id
+      validateMongoId(noteId)
+      const note=await NoteModel.findByIdAndUpdate<Note>(noteId,req.body,{new:true})
+      if(!note){
+         throw new Error('the note doesnt exists')
+      }
+      res.status(200).json({
+         sucess:true,
+         note
+      })      
+   } catch (error:any) {
+      throw new Error(error)
+   }
+})
+
+// delete the note 
+export const deleteNote:RequestHandler=asyncHandler(async(req:Request,res:Response)=>{
+   try {
+      const id=req.params.id
+      validateMongoId(id)
+      const note=await NoteModel.findById<Note>(id).exec()
+      if(!note){
+         throw new Error("note not found")
+      }
+    await NoteModel.findByIdAndDelete(id)      
+    res.status(200).json({
+      sucess:true,
+      message:"user has been deleted sucessfully"
+    })  
+   } catch (error) {
+      
+   }
+})
+
+
+
+
+
 
