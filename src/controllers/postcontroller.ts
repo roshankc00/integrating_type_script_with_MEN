@@ -90,9 +90,10 @@ export const deleteNote:RequestHandler=asyncHandler(async(req:Request,res:Respon
     await NoteModel.findByIdAndDelete(id)      
     res.status(200).json({
       sucess:true,
-      message:"user has been deleted sucessfully"
+      message:"note has been deleted sucessfully"
     })  
-   } catch (error) {
+   } catch (error:any) {
+      throw new Error(error)
       
    }
 })

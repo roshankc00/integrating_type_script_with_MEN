@@ -3,6 +3,7 @@ import 'dotenv/config'
 import { connectDb } from './config/connectDb';
 import env from './utility/validateEnv'
 import noteRoutes from './routes/postRoute'
+import userRoutes from './routes/userRoute'
 import { notFound ,handleError} from './middlewares/Errorhandler';
 import morgan from 'morgan'
 const app=express()
@@ -17,6 +18,7 @@ app.use(morgan('dev'))
 
 // all the routes
 app.use('/api/v1',noteRoutes)
+app.use('/api/v1',userRoutes)
 
 
 
